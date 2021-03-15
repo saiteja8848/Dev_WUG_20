@@ -1,0 +1,63 @@
+#Workflow Name,Optional
+name: RunTests
+
+#On Which Events we want to Trigger this workflow, these workflow will exist only after DevBuild.yml
+on:
+  workflow_run:
+    workflows: ["DevBuild"]
+    branches: [main]
+    types: 
+      - completed
+
+# Under Jobs, We can have one or many jobs, where each Job runs a machine, each have Steps either Commands or Built-In Actions
+jobs:
+
+  #Job Name:Build
+  build:
+    
+    #Runs on the Virtual Machine Added, which acts a Template for WUG
+    runs-on: self-hosted
+    
+    steps:
+    
+    # Check Build Status Before Executing Tests, From the Log File
+    - name: Check Build status
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools
+      shell: cmd  
+      run: findstr -ri abort DevBuild.log
+      continue-on-error: true
+
+    # If the Previous Step Executes, Build gets Failed EXIT 1 else Success EXIT 0
+    - name: Abort if Build not successful
+      if: steps.BuildStatus.status == success() 
+      run: exit 1
+
+    # If Build Status is Exit 0, Further Steps execute
+    - name: Run Unit Tests
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools
+      shell: cmd
+      run: RunTests.bat
+    
+    # Generate Unit Test Reports 
+    - name: Generate unit test reports
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools\UnitTests
+      shell: cmd
+      run: generate_report.bat
+      
+    # Trx is the nothing but a visual studio extension for Unit Test Results, we can .trx file parse & to show reports  
+    - name: Parse the Unit test results
+      uses: NasAmin/trx-parser@v0.0.4
+      id: trx-parser
+      with:
+          TRX_PATH: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
+          REPO_TOKEN: ${{ secrets.TEST }}
+          IGNORE_FAILURE: false  
+    
+    # Code Coverage Reports
+    - name: Download CodeCoverage Report
+      uses: actions/upload-artifact@v2
+      with:
+         name: CodeCoverage
+         path: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\CoverageReport.html
+      
+      
