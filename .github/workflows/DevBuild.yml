@@ -38,12 +38,12 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: |
-        findstr abort DevBuild.log 
+        findstr -ri abort DevBuild.log 
         echo %errorlevel%
         if %errorlevel%==0 
-        (echo "The value of variable c is 0") 
+        (echo "Build Success") 
         else 
-        (echo "Unknown value") 
+        (echo "Build Failed") 
  
    
    
