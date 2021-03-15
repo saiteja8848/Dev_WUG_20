@@ -39,26 +39,16 @@ jobs:
       shell: cmd
       run: DevBuild.bat
        
-    - name: Check Build Status
-      id: BuildStatus
+    - name: Check Build status
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd  
-      run: | 
-            findstr -ri abort DevBuild.log 
-            echo %errorlevel%
+      run: findstr -ri abort DevBuild.log
+      continue-on-error: true
+  
+    - name: Abort if Build not successful
+      if: steps.BuildStatus.status == success() 
+      run: exit 1
             
             
-#     - name: Check Build Status
-#       run: |
-#           if $findstr -ri abort DevBuild.log; then
-#             exit 0
-#           else
-#              exit 1
-#           fi        
-             
-      #continue-on-error: true
-      
-#     - name: Abort If Build gets Failed
-#       if: steps.BuildStatus.status == success() 
-#       run: exit 1
+
       
