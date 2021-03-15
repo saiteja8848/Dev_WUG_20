@@ -40,7 +40,8 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: |
-        findstr -ri abort DevBuild.log 
+        findstr  abort DevBuild.log 
+        echo %errorlevel%
         set xyz = echo %errorlevel%
         echo %xyz%  
    
