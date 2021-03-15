@@ -41,7 +41,7 @@ jobs:
       shell: cmd
       run: |
         findstr -ri abort DevBuild.log 
-        %$set% xyz= %errorlevel%
+        set xyz = %errorlevel%
         echo %xyz%  
    
    
