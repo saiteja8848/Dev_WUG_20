@@ -35,14 +35,15 @@ jobs:
        
     - name: Check Build status
       env:
-          come: $(findstr -ri abort DevBuild.log) 
+          COMMIT_VAR: ${{ contains(findstr -ri abort DevBuild.log, '[At least one project failed for this solution. Aborting build script. Check DevBuild.log for details!]') }} 
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: |
         findstr -ri abort DevBuild.log 
         echo %errorlevel%
-        if %errorlevel%==0 (echo "The value of variable c is 0") else (echo "Unknown value") 
+        if ${COMMIT_VAR} == true (echo "The value of variable c is 0") else (echo "Unknown value")
+       
  
    
    
