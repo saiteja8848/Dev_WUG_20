@@ -5,23 +5,18 @@ on:
     branches: [ main,master ]
   workflow_dispatch:
   
-
-
-
 jobs:
+ 
  build:
-    runs-on: self-hosted  
+    runs-on: self-hosted
     
-   
     steps:  
-    
     - name: Check file existence
       id: check_files
       uses: andstor/file-existence-action@v1
       with:
         files: "C:/Work/WUG/Main"
-     
-    
+   
     - name: Clone Repo
       if: steps.check_files.outputs.files_exists == 'false'
       shell: cmd
@@ -32,14 +27,14 @@ jobs:
       working-directory: C:\Work\WUG\Main\
       shell: cmd
       run: git pull  
-         
-     
+           
     - name: Run Devbuild
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: DevBuild.bat
        
     - name: Check Build status
+      id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd  
       run: findstr -ri abort DevBuild.log
