@@ -39,7 +39,7 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: pwsh
-      run: echo $come
+      run: echo %come%
    
    
    
