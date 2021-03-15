@@ -38,7 +38,7 @@ jobs:
           come: ges
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: pwsh
+      shell: cmd
       run: echo %come%
    
    
