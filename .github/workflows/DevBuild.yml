@@ -40,7 +40,7 @@ jobs:
       run: |
         findstr -ri abort DevBuild.log 
         echo %errorlevel%
-        if %errorlevel%==0 
+        if %errorlevel%==0 :
         (echo "Build Success") 
         else 
         (echo "Build Failed") 
