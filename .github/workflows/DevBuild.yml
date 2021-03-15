@@ -41,7 +41,8 @@ jobs:
       shell: cmd
       run: |
         come = findstr -ri abort DevBuild.log 
-        set come = echo %errorlevel%
+        echo set come = %errorlevel%
+        echo ::set-output name=state::$come
         echo %come%   
    
    
