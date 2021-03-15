@@ -40,7 +40,7 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       run: |
           findstr -ri abort DevBuild.log
-          BUILD-STATUS=echo %%erroelevel 
+          BUILD-STATUS=echo %erroelevel% 
           echo $BUILD-STATUS
    
    
