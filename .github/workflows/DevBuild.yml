@@ -39,7 +39,9 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
-      run: echo %come%
+      run: |
+        come = findstr -ri abort DevBuild.log 
+        echo %come%
    
    
    
