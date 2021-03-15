@@ -42,7 +42,7 @@ jobs:
       run: |
         findstr  abort DevBuild.log 
         echo %errorlevel%
-        set xyz = echo %errorlevel%
+        set xyz = %errorlevel%
         echo %xyz%  
    
    
