@@ -38,8 +38,8 @@ jobs:
           come: ges
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: sh
-      run: grep abort DevBuild.log
+      shell: pwsh
+      run: echo $come
    
    
    
