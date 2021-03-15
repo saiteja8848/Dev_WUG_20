@@ -1,0 +1,65 @@
+name: DevBuild
+
+on: 
+  pull_request:
+    branches: [ main,master ]
+  workflow_dispatch:
+   types: 
+      - completed
+
+
+
+jobs:
+ build:
+    runs-on: self-hosted  
+    
+   
+    steps:  
+    
+    - name: Check file existence
+      id: check_files
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "C:/Work/WUG/Main"
+     
+    
+    - name: Clone Repo
+      if: steps.check_files.outputs.files_exists == 'false'
+      shell: cmd
+      run: git clone https://${{ secrets.TOKEN }}@github.bedford.progress.com/sgurram/WUG C:/Work/WUG/Main     
+      
+    - name: pull Repo
+      if: steps.check_files.outputs.files_exists == 'true'
+      working-directory: C:\Work\WUG\Main\
+      shell: cmd
+      run: git pull  
+         
+     
+    - name: Run Devbuild
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools
+      shell: cmd
+      run: DevBuild.bat
+       
+    - name: Check Build Status
+      id: BuildStatus
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools
+      shell: cmd  
+      run: | 
+            findstr -ri abort DevBuild.log 
+            echo %errorlevel%
+            
+            
+    - name: Check Build Status
+      run: |
+          if $findstr -ri abort DevBuild.log; then
+            exit 0
+          else
+             exit 1
+          fi        
+             
+      #continue-on-error: true
+      
+#     - name: Abort If Build gets Failed
+#       if: steps.BuildStatus.status == success() 
+#       run: exit 1
+      
