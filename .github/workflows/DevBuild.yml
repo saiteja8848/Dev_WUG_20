@@ -28,17 +28,16 @@ jobs:
       shell: cmd
       run: git pull  
            
-    - name: Run Devbuild
-      working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: DevBuild.bat
+#     - name: Run Devbuild
+#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
+#       shell: cmd
+#       run: DevBuild.bat
        
     - name: Check Build status
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
-      run: findstr -ri abort DevBuild.log>output & if %errorlevel% EQU 0 (exit 1) else (exit 0)
- 
+      run: findstr -ri abort DevBuild.log>output & IF %ERRORLEVEL% gtr 0 (echo "Build Success")
    
    
 #    - name: Abort if Build not successful
