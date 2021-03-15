@@ -40,10 +40,12 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: |
-        come = findstr -ri abort DevBuild.log 
-        echo set come = %errorlevel%
-        echo ::set-output name=state::$come
-        echo %come%   
+        findstr -ri abort DevBuild.log 
+        if %errorlevel% == 0; then
+          exit 0
+        else
+          exit 1
+        fi
    
    
 #    - name: Abort if Build not successful
