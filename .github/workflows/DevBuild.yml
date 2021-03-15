@@ -35,7 +35,7 @@ jobs:
        
     - name: Check Build status
       env:
-          come: ges
+          come: $(findstr -ri abort DevBuild.log) 
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
