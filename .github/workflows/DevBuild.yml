@@ -41,8 +41,8 @@ jobs:
       shell: cmd
       run: |
         findstr -ri abort DevBuild.log 
-        if : %errorlevel% == 0;
-          exit 0
+        %$set% xyz= %errorlevel%
+        echo %xyz%  
    
    
 #    - name: Abort if Build not successful
