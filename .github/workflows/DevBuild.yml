@@ -35,11 +35,11 @@ jobs:
        
     - name: Check Build status
       env:
-          BUILD-STATUS: true
+          come: ges
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: echo ${BUILD-STATUS}
+      shell: sh
+      run: grep abort DevBuild.log
    
    
    
