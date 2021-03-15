@@ -48,13 +48,13 @@ jobs:
             echo %errorlevel%
             
             
-    - name: Check Build Status
-      run: |
-          if $findstr -ri abort DevBuild.log; then
-            exit 0
-          else
-             exit 1
-          fi        
+#     - name: Check Build Status
+#       run: |
+#           if $findstr -ri abort DevBuild.log; then
+#             exit 0
+#           else
+#              exit 1
+#           fi        
              
       #continue-on-error: true
       
