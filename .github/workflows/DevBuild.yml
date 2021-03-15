@@ -39,7 +39,7 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
-      run: echo "${BUILD-STATUS}"
+      run: echo ${BUILD-STATUS}
    
    
    
