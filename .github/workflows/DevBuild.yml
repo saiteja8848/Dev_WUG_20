@@ -41,8 +41,8 @@ jobs:
       shell: cmd
       run: |
         come = findstr -ri abort DevBuild.log 
-        echo %come%
-   
+        set come = echo %errorlevel%
+        echo %come%   
    
    
 #    - name: Abort if Build not successful
