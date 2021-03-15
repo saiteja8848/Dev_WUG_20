@@ -37,7 +37,7 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
-      run: findstr "abort" DevBuild.log>output & if %errorlevel% EQU 1 (echo "Build Succeed") else (echo "Build Failed")
+      run: findstr "abort" DevBuild.log>output & if %errorlevel% EQU 0 (echo "Build Succeed") else (echo "Build Failed")
  
    
    
