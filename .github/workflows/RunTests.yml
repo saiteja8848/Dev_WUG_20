@@ -6,6 +6,11 @@ on:
     branches: [main]
     types: 
       - completed
+    inputs:
+      ci:
+        description: "DevBuild"
+        required: false
+        default: "DevBuild.yml"
       
 jobs:
   StatusCheck:
@@ -16,7 +21,7 @@ jobs:
 
       - name: Check Build status
         run: |
-          output=$(curl -sSL -X GET -G -H "Accept: application/vnd.github.v3+json" -d "branch=${{ env.GITHUB_REF_SLUG }}"  https://api.github.com/repos/${{ github.repository }}/actions/workflows/DevBuild/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
+          output=$(curl -sSL -X GET -G -H "Accept: application/vnd.github.v3+json" -d "branch=main" -d "event=workflow_dispatch" https://api.github.com/repos/${{ github.repository }}/actions/workflows/${{ github.event.inputs.ci }}/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
           echo "::set-output name=status::$output"
         id: check
 
@@ -29,6 +34,7 @@ jobs:
   
   
   TestsExecution:
+    needs: [StatusCheck]
     runs-on: self-hosted 
     steps:   
     - name: Check Build status
