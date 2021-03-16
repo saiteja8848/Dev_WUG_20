@@ -1,35 +1,36 @@
 name: RunTests
 
 on:
-  workflow_run:
-    workflows: ["DevBuild"]
-    branches: [main]
-    types: 
-      - completed
+#   workflow_run:
+#     workflows: ["DevBuild"]
+#     branches: [main]
+#     types: 
+#       - completed
+  repository_dispatch:
+    types: [trigger-workflow-2]
       
 jobs:
-  Build-Status-Check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v2.x
+#   Build-Status-Check:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Inject slug/short variables
+#         uses: rlespinasse/github-slug-action@v2.x
 
-      - name: Check Build status
-        run: |
-          output=$(curl -sSL -X GET -G -H "Authorization: 2119635fe605f20030f4727fcf53e63cba3a8e7e" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/actions/workflows/DevBuild.yml/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
-          echo "::set-output name=status::$output"
-        id: check
+#       - name: Check Build status
+#         run: |
+#           output=$(curl -sSL -X GET -G -H "Authorization: 2119635fe605f20030f4727fcf53e63cba3a8e7e" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/actions/workflows/DevBuild.yml/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
+#           echo "::set-output name=status::$output"
+#         id: check
 
-      - name: Abort if Build not successful
-        if: steps.check.outputs.status != 'success'
-        run: |
-          echo ${{ steps.check.outputs.status }}
-          exit 1
+#       - name: Abort if Build not successful
+#         if: steps.check.outputs.status != 'success'
+#         run: |
+#           echo ${{ steps.check.outputs.status }}
+#           exit 1
   
   
   
   TestsExecution:
-    needs: [Build-Status-Check]
     runs-on: self-hosted 
     steps:       
     - name: Run Unit Tests
