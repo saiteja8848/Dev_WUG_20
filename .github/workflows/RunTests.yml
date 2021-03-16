@@ -6,11 +6,6 @@ on:
     branches: [main]
     types: 
       - completed
-    inputs:
-      ci:
-        description: "DevBuild"
-        required: false
-        default: "DevBuild.yml"
       
 jobs:
   StatusCheck:
@@ -25,22 +20,6 @@ jobs:
           echo "::set-output name=status::$output"
         id: check
 
-      - name: Abort if CI not successful
-        if: steps.check.outputs.status != 'success'
-        run: |
-          echo ${{ steps.check.outputs.status }}
-          exit 1
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 8
-
-      - name: Publish to Gradle Plugin Portal
-        run: ./gradlew publishPlugins -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}
-
-          echo "::set-output name=status::$output"
-        id: check
-
       - name: Abort if Build not successful
         if: steps.check.outputs.status != 'success'
         run: |
@@ -52,24 +31,7 @@ jobs:
   TestsExecution:
     needs: [StatusCheck]
     runs-on: self-hosted 
-    steps:   
-    - name: Check Build status
-      id: BuildStatus
-      working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: findstr -ri abort DevBuild.log>output & if %errorlevel% EQU 0 (exit 1) else (exit 0)
- 
-#     - name: Check Build status
-#       id: BuildStatus
-#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-#       shell: cmd  
-#       run: findstr -ri abort DevBuild.log
-#       continue-on-error: true
-
-#     - name: Abort if Build not successful
-#       if: steps.BuildStatus.status == success() 
-#       run: exit 1
-      
+    steps:       
     - name: Run Unit Tests
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
