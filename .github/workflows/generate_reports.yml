@@ -1,11 +1,11 @@
 name: generate_reports
 
 on:
-  workflow_run:
-    workflows: ["RunTests"]
-    branches: [main,master]
-    types: 
-      - completed
+#   workflow_run:
+#     workflows: ["RunTests"]
+#     branches: [main,master]
+#     types: 
+#       - completed
   workflow_dispatch:   
 
 jobs:
