@@ -7,20 +7,22 @@ on:
     types: 
       - completed
   workflow_dispatch:   
-      
+
 jobs:
-  Generate-Reports:
-      - name: Parse the Unit test results
-        uses: NasAmin/trx-parser@v0.1.0
-        id: trx-parser
-        with:
-          TRX_PATH: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IGNORE_FAILURE: true
-        continue-on-error: true  
+      Generate-Reports:
+        runs-on: self-hosted  
+        steps:
+            - name: Parse the Unit test results
+              uses: NasAmin/trx-parser@v0.1.0
+              id: trx-parser
+              with:
+                TRX_PATH: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
+                REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                IGNORE_FAILURE: true
+              continue-on-error: true  
       
-      - name: Download CodeCoverage Report
-        uses: actions/upload-artifact@v2
-        with:
-         name: CodeCoverage
-         path: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\CoverageReport.html
+            - name: Download CodeCoverage Report
+              uses: actions/upload-artifact@v2
+              with:
+                 name: CodeCoverage
+                 path: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\CoverageReport.html
