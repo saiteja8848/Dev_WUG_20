@@ -21,7 +21,23 @@ jobs:
 
       - name: Check Build status
         run: |
-          output=$(curl -X GET -H 'Authorization: 2119635fe605f20030f4727fcf53e63cba3a8e7e' -H 'Accept: application/vnd.github.v3+json' -v -i 'https://api.github.com/repos/saiteja8848/Dev_WUG_20/actions/workflows/DevBuild.yml/runs' | jq -r '.workflow_runs[0] | "\(.conclusion)"')
+          output=$(curl -sSL -X GET -G -H "Authorization: 2119635fe605f20030f4727fcf53e63cba3a8e7e" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/actions/workflows/DevBuild.yml/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
+          echo "::set-output name=status::$output"
+        id: check
+
+      - name: Abort if CI not successful
+        if: steps.check.outputs.status != 'success'
+        run: |
+          echo ${{ steps.check.outputs.status }}
+          exit 1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Publish to Gradle Plugin Portal
+        run: ./gradlew publishPlugins -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}
+
           echo "::set-output name=status::$output"
         id: check
 
