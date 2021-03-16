@@ -28,10 +28,10 @@ jobs:
       shell: cmd
       run: git pull  
            
-    - name: Run Devbuild
-      working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: DevBuild.bat
+#     - name: Run Devbuild
+#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
+#       shell: cmd
+#       run: DevBuild.bat
        
     - name: Check Build status
       id: BuildStatus
@@ -42,8 +42,16 @@ jobs:
    
     - name: Abort if Build not successful
       if: steps.BuildStatus.status == success() 
-      run: exit 1
-            
+      run: exit 0
+      
+#    - name: Trigger next workflow
+#   if: success()
+#   uses: peter-evans/repository-dispatch@v1
+#   with:
+#     token: ${{ secrets.REPO_GHA_PAT }}
+#     repository: ${{ github.repository }}
+#     event-type: trigger-workflow-2
+#     client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'         
             
 
       
