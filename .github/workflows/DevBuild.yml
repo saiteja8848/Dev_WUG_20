@@ -40,9 +40,9 @@ jobs:
       run: findstr -ri abort DevBuild.log
 #       continue-on-error: true
    
-#     - name: Abort if Build Not Successfully
-#       if: steps.BuildStatus.status == success() 
-#       run: exit 1
+    - name: Abort if Build Not Successfully
+      if: steps.BuildStatus.status == success() 
+      run: exit 1
        
     - name: Trigger next workflow
       if: success()
