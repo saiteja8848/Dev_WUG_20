@@ -41,7 +41,7 @@ jobs:
 #       continue-on-error: true
    
     - name: Abort if Build Not Successfully
-      if: steps.BuildStatus.status == success() 
+      if: steps.BuildStatus.status == failure()
       run: exit 1
        
     - name: Trigger next workflow
