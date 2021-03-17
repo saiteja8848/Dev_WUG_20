@@ -1,54 +1,27 @@
 name: RunTests
 
 on:
-#   workflow_run:
-#     workflows: ["DevBuild"]
-#     branches: [main]
-#     types: 
-#       - completed
-  workflow_dispatch:
   repository_dispatch:
     types: [RunTests]
       
-jobs:
-#   Build-Status-Check:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Inject slug/short variables
-#         uses: rlespinasse/github-slug-action@v2.x
-
-#       - name: Check Build status
-#         run: |
-#           output=$(curl -sSL -X GET -G -H "Authorization: 2119635fe605f20030f4727fcf53e63cba3a8e7e" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/actions/workflows/DevBuild.yml/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
-#           echo "::set-output name=status::$output"
-#         id: check
-
-#       - name: Abort if Build not successful
-#         if: steps.check.outputs.status != 'success'
-#         run: |
-#           echo ${{ steps.check.outputs.status }}
-#           exit 1
-  
-  
-  
-#   TestsExecution:
-#     runs-on: self-hosted 
-#     steps:       
-#     - name: Run Unit Tests
-#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-#       shell: cmd
-#       run: RunTests.bat
-      
-      
+jobs:  
+  TestsExecution:
+    runs-on: self-hosted 
+    steps:       
+    - name: Run Unit Tests
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools
+      shell: cmd
+      run: RunTests.bat
+    
+    - name: Generate unit test reports
+      working-directory: C:\work\WUG\Main\Source\DevBuildTools\UnitTests
+      shell: cmd
+      run: generate_report.bat  
+   
   TestReports:
-#      needs: [TestsExecution]
+     needs: [TestsExecution]
      runs-on: self-hosted  
-     steps:  
-#       - name: Generate unit test reports
-#         working-directory: C:\work\WUG\Main\Source\DevBuildTools\UnitTests
-#         shell: cmd
-#         run: generate_report.bat
-      
+     steps:   
       - name: Parse the Unit test results
         uses: NasAmin/trx-parser@v0.0.5
         id: trx-parser
@@ -57,7 +30,6 @@ jobs:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IGNORE_FAILURE: false
         
-      
       
       - name: Download CodeCoverage Report
         uses: actions/upload-artifact@v2
