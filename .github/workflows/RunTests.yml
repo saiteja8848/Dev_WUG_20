@@ -49,22 +49,14 @@ jobs:
 #         run: generate_report.bat
       
       - name: Parse the Unit test results
-        uses: NasAmin/trx-parser@v0.0.4
+        uses: NasAmin/trx-parser@v0.0.5
         id: trx-parser
         with:
           TRX_PATH: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IGNORE_FAILURE: false
         
-      - name: use this action, test solution dir
-        uses: zyborg/dotnet-tests-report@v1
-        with:
-          project_path: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
-          report_name: Dev_WUG_20
-          report_title: My Project Tests
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
-        
-        
+      
       
       - name: Download CodeCoverage Report
         uses: actions/upload-artifact@v2
