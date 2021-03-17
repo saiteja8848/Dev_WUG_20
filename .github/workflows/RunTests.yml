@@ -30,23 +30,23 @@ jobs:
   
   
   
-  TestsExecution:
-    runs-on: self-hosted 
-    steps:       
-    - name: Run Unit Tests
-      working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: RunTests.bat
+#   TestsExecution:
+#     runs-on: self-hosted 
+#     steps:       
+#     - name: Run Unit Tests
+#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
+#       shell: cmd
+#       run: RunTests.bat
       
       
   TestReports:
-     needs: [TestsExecution]
+#      needs: [TestsExecution]
      runs-on: self-hosted  
      steps:  
-      - name: Generate unit test reports
-        working-directory: C:\work\WUG\Main\Source\DevBuildTools\UnitTests
-        shell: cmd
-        run: generate_report.bat
+#       - name: Generate unit test reports
+#         working-directory: C:\work\WUG\Main\Source\DevBuildTools\UnitTests
+#         shell: cmd
+#         run: generate_report.bat
       
       - name: Parse the Unit test results
         uses: NasAmin/trx-parser@v0.1.0
@@ -54,7 +54,7 @@ jobs:
         with:
           TRX_PATH: C:\Work\WUG\Main\Source\DevBuildTools\UnitTests\TestResults
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IGNORE_FAILURE: true
+          IGNORE_FAILURE: false
         continue-on-error: true  
       
       - name: Download CodeCoverage Report
