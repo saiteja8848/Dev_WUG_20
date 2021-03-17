@@ -32,13 +32,20 @@ jobs:
 #       working-directory: C:\Work\WUG\Main\Source\DevBuildTools
 #       shell: cmd
 #       run: DevBuild.bat
-        
+      
+    - uses: sibiraj-s/action-eslint@v1
+      with:
+        extensions: 'js, jsx, ts, tsx'
+        annotations: true
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     - name: Check Build status
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: findstr -ri abort DevBuild.log
-#       continue-on-error: true
+      continue-on-error: true
    
     - name: Abort if Build Not Successfully
       if: steps.BuildStatus.status == failure()
