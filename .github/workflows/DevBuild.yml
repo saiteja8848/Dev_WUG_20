@@ -33,9 +33,15 @@ jobs:
 #       shell: cmd
 #       run: DevBuild.bat
     
-    - name: Test
-    - uses: Vampire/setup-wsl@v1    
-    - run: grep -re abort C:\work\WUG\Main\Source\DevBuildTools\DevBuild.log  
+    - name: Run the script
+      shell: pwsh
+      run: |
+        bash --version
+        Enable-WindowsOptionalFeature -Online -NoRestart -FeatureName Microsoft-Windows-Subsystem-Linux
+        Dism /online /Get-FeatureInfo /FeatureName:Microsoft-Windows-Subsystem-Linux
+        #wsl
+        bash --version
+        #ubuntu
        
        
     - name: Check Build status
