@@ -33,12 +33,12 @@ jobs:
 #       shell: cmd
 #       run: DevBuild.bat
       
-    - uses: sibiraj-s/action-eslint@v1
-      with:
-        extensions: 'js, jsx, ts, tsx'
-        annotations: true
-      env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - uses: sibiraj-s/action-eslint@v1
+#       with:
+#         extensions: 'js, jsx, ts, tsx'
+#         annotations: true
+#       env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Check Build status
       id: BuildStatus
