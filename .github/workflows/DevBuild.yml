@@ -37,7 +37,9 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
-      run: findstr -ri abort DevBuild.log | set %errorlevel% = 0
+      run: |
+             findstr -ri abort DevBuild.log | set %errorlevel% = 0
+             set %errorlevel% = 0
 #       continue-on-error: true
    
 #     - name: Abort if Build gets failed
