@@ -28,10 +28,10 @@ jobs:
       shell: cmd
       run: git pull  
            
-#     - name: Run Devbuild
-#       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-#       shell: cmd
-#       run: DevBuild.bat
+    - name: Run Devbuild
+      working-directory: C:\Work\WUG\Main\Source\DevBuildTools
+      shell: cmd
+      run: DevBuild.bat
        
     - name: Check Build status
       id: BuildStatus
@@ -50,7 +50,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_GHA_PAT }}
         repository: ${{ github.repository }}
-        event-type: trigger-workflow-2
+        event-type:  RunTests
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'         
 
 
