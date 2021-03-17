@@ -38,11 +38,11 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: findstr -ri abort DevBuild.log
-#       continue-on-error: true
+      continue-on-error: true
    
-#     - name: Abort if Build not successful
-#       if: steps.BuildStatus.status == success() 
-#       run: exit 1
+    - name: Abort if Build not successful
+      if: steps.BuildStatus.status == success() 
+      run: exit 1
        
     - name: Trigger next workflow
       if: success()
