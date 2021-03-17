@@ -28,30 +28,23 @@ jobs:
       shell: cmd
       run: git pull  
            
-#     - name: Run Devbuild
-#       working-directory: C:\Work\WUG\Main\Source\DevBuildTools
-#       shell: cmd
-#       run: DevBuild.bat
-      
-#     - uses: sibiraj-s/action-eslint@v1
-#       with:
-#         extensions: 'js, jsx, ts, tsx'
-#         annotations: true
-#       env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Check Build status
+    - name: Run Devbuild
+      working-directory: C:\Work\WUG\Main\Source\DevBuildTools
+      shell: cmd
+      run: DevBuild.bat
+    
+    - name: Check Build Status
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
-      shell: cmd
+      shell: cmd  
       run: findstr -ri abort DevBuild.log
       continue-on-error: true
-   
-    - name: Abort if Build not successful
+    
+    - name: Abort If Build gets Failed
       if: steps.BuildStatus.status == success() 
       run: exit 1
        
-    - name: Trigger next workflow
+    - name: Trigger RunTests workflow
       if: success()
       uses: peter-evans/repository-dispatch@v1
       with:
