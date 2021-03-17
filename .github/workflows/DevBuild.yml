@@ -28,10 +28,15 @@ jobs:
       shell: cmd
       run: git pull  
            
-    - name: Run Devbuild
-      working-directory: C:\Work\WUG\Main\Source\DevBuildTools
-      shell: cmd
-      run: DevBuild.bat
+#     - name: Run Devbuild
+#       working-directory: C:\Work\WUG\Main\Source\DevBuildTools
+#       shell: cmd
+#       run: DevBuild.bat
+    
+    - name: Test
+    - uses: Vampire/setup-wsl@v1    
+    - run: grep -re abort C:\work\WUG\Main\Source\DevBuildTools\DevBuild.log  
+       
        
     - name: Check Build status
       id: BuildStatus
