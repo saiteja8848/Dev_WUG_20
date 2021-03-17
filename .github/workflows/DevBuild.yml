@@ -38,9 +38,6 @@ jobs:
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd
       run: findstr -ri abort DevBuild.log
-      if: succeeded() || failed()
-    - run: echo runs always, even if the prior step was cancelled
-      if: always()
 #       continue-on-error: true
    
     - name: Abort if Build Not Successfully
