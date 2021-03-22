@@ -37,12 +37,7 @@ jobs:
       id: BuildStatus
       working-directory: C:\work\WUG\Main\Source\DevBuildTools
       shell: cmd  
-      run: findstr -ri abort DevBuild.log
-      continue-on-error: true
-    
-    - name: Abort If Build gets Failed
-      if: steps.BuildStatus.status == success() 
-      run: exit 1
+      run: findstr "DEVBUILD ENDED" DevBuild.log
        
     - name: Trigger RunTests workflow
       if: success()
